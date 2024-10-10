@@ -377,6 +377,8 @@ class CountryRecognizer:
         continents_countries = set()
         continents_countries_capitals = set()
 
+        capitals = set()  # new set for capitals
+
         if text is not None:
             for continent, name, regex, entity_type in self.patterns:
                 for match in regex.finditer(text):
@@ -386,10 +388,14 @@ class CountryRecognizer:
                         countries.add(f"{name} - {position}")
                         continents_countries.add(f"{continent}: {name} - {position}")
                     elif entity_type == 'capital':
+                        capitals.add(f"{name} - {position}")  # add matched capital with position
                         country = self.capital_to_country.get(name, "Unknown Country")
                         continents_countries_capitals.add(f"{continent}: {country}: {name} (capital) - {position}")
 
-            print("First pass (Country):")
+            print("Captured capitals:")
+            print("\n".join(sorted(capitals)))
+
+            print("\nFirst pass (Country):")
             print("\n".join(countries))
 
             print("\nSecond pass (Continent, Country):")

@@ -32,6 +32,8 @@ class NameProcessor:
     @staticmethod
     def to_genitive_case(name):
         # Check last character of name to decide suffix
+        if name and name[-2].lower() in ['і'] and name[-1].lower() in ['я']:
+            return name[-1] + 'ї'
         if name and name[-1].lower() in ['а', 'я']:
             return name[:-1] + 'и'
         else:
@@ -39,10 +41,13 @@ class NameProcessor:
 
     @staticmethod
     def to_instrumental_case(name):
+        if name and name[-2].lower() in ['і'] and name[-1].lower() in ['я']:
+            return name[-1] + 'єю'
         if name and name[-1].lower() in ['а', 'я']:
             return name[:-1] + 'ою'
         else:
             return name[:-1] + 'ом'
+
     def analyze_text_file(self, filepath):
         found_names = []
         with open(filepath, 'r') as file:
